@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>Cubic Noise</title>
+		<link rel="stylesheet" type="text/css" href="css/showcase.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<h1>Cubic Noise showcase</h1>
+			</div>
+			<div id="tabs">
+				<button class="tablink" onclick="setTab(event, 'cubic-noise')" id="default-tab">Cubic Noise</button>
+				<button class="tablink" onclick="setTab(event, 'terrain')">Terrain</button>
+				<button class="tablink" onclick="setTab(event, 'branching')">Branching</button>
+			</div>
+			<div id="content">
+				<div id="canvas-wrapper">
+					<canvas id="renderer"/>
+				</div>
+				<div id="description">
+					<div id="cubic-noise" class="tab-description">
+						<h3>Cubic Noise</h3>
+						<p>A grayscale cubic noise is rendered. The period can be changed to influence its scale. The noise can be seeded.</p>
+					</div>
+					<div id="terrain" class="tab-description">
+						<h3>Terrain</h3>
+					</div>
+					<div id="branching" class="tab-description">
+						<h3>Branching</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/main.js"></script>
+		<script src="js/init.js"></script>
+	</body>
+</html>
