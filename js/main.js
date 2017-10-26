@@ -3,6 +3,8 @@ function setTab(e, tab) {
 	showDescription(tab);
 	
 	highlightTab(e);
+	
+	render(tab);
 }
 
 function highlightTab(e) {
@@ -25,4 +27,16 @@ function hideAllDescriptions() {
 
 function showDescription(tab) {
 	document.getElementById(tab).style.display = "block";
+}
+
+function render(tab) {
+	switch(tab) {
+		case "cubic-noise":
+			renderCubicNoise();
+			break;
+	}
+}
+
+function getCanvas() {
+	return document.getElementById("renderer");
 }
