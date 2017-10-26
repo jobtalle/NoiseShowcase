@@ -18,16 +18,36 @@
 					<canvas width=550 height=400 id="renderer"/>
 				</div>
 				<div id="description">
-					<div id="cubic-noise" class="tab-description">
+					<div id="cubic-noise-description" class="tab-description">
 						<h3>Cubic Noise</h3>
 						<p>A grayscale cubic noise is rendered. The period can be changed to influence its scale. The noise can be seeded.</p>
 					</div>
-					<div id="terrain" class="tab-description">
+					<div id="terrain-description" class="tab-description">
 						<h3>Terrain</h3>
 					</div>
-					<div id="branching" class="tab-description">
+					<div id="branching-description" class="tab-description">
 						<h3>Branching</h3>
 					</div>
+				</div>
+			</div>
+			<div id="controls">
+				<div id="cubic-noise-controls" class="tab-controls">
+					<table>
+						<tr>
+							<td><button id="cubic-noise-generate" onclick="cubicNoiseRender()">Generate</button></td>
+							<td><button id="cubic-noise-randomize-seed" onclick="cubicNoiseRandomizeSeed()">Randomize seed</button></td>
+						</tr>
+						<tr>
+							<td>Seed</td>
+							<td><input id="cubic-noise-seed" type="number"/></td>
+						</tr>
+					</table>
+				</div>
+				<div id="terrain-controls" class="tab-controls">
+					Terrain controls
+				</div>
+				<div id="branching-controls" class="tab-controls">
+					Branching controls
 				</div>
 			</div>
 		</div>

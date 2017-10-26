@@ -2,9 +2,12 @@ function setTab(e, tab) {
 	hideAllDescriptions();
 	showDescription(tab);
 	
+	hideAllControls();
+	showControls(tab);
+	
 	highlightTab(e);
 	
-	render(tab);
+	activate(tab);
 }
 
 function highlightTab(e) {
@@ -26,13 +29,25 @@ function hideAllDescriptions() {
 }
 
 function showDescription(tab) {
-	document.getElementById(tab).style.display = "block";
+	document.getElementById(tab + "-description").style.display = "block";
 }
 
-function render(tab) {
+function hideAllControls() {
+	var allControls = document.getElementsByClassName("tab-controls");
+	
+	for(var i = 0; i < allControls.length; ++i) {
+		allControls[i].style.display = "none";
+	}
+}
+
+function showControls(tab) {
+	document.getElementById(tab + "-controls").style.display = "block";
+}
+
+function activate(tab) {
 	switch(tab) {
 		case "cubic-noise":
-			renderCubicNoise();
+			cubicNoiseSetup();
 			break;
 	}
 }

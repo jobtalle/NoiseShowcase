@@ -1,5 +1,5 @@
 body {
-	background-color: #87bdd8;
+	background-color: #ffeead;
 	font-family: Calibri;
 }
 
@@ -13,45 +13,24 @@ body {
 	float: top;
 }
 
-#content {
-	float: bottom;
-}
-
-#canvas-wrapper {
-	float: left;
-	padding-right: 16px;
-}
-
-#description {
-	
-}
-
-#renderer {
-	width: 550px;
-	height: 400px;
-	background-color: #ffffff;
-	border: 1px solid #000000;
-	border-left: 0;
-}
-
 #tabs {
-	float: left;
-	height: 100%;
-	display: table;
+	float: top;
+	width: 100%;
 	border: 1px solid #000000;
-	background-color: #b7d7e8;
+	background-color: #ff6f69;
+	overflow: auto;
 }
 
 #tabs button {
+	float: left;
 	background-color: inherit;
-	width: 100%;
 	display: block;
 	border: none;
 	outline: none;
 	cursor: pointer;
-	padding: 14px 16px;
+	padding: 14px 12px;
 	font-size: 18px;
-	transition: 0.1s;
+	transition: 0.3s;
 }
 
 #tabs button:hover {
@@ -62,6 +41,48 @@ body {
 	background-color: #ffffff;
 }
 
+#content {
+	float: top;
+}
+
+#canvas-wrapper {
+	float: left;
+	padding-right: 16px;
+}
+
+#renderer {
+	background-color: #ffffff;
+	border: 1px solid #000000;
+	border-top: 0;
+}
+
+#description {	
+	overflow: hidden;
+}
+
+#controls {
+	clear: left;
+	float: top;
+	width: 100%;
+}
+
+#controls td {
+	text-align: right;
+}
+
+#controls button {
+	width: 100%;
+}
+
+#controls input {
+	width: 100%;
+}
+
 .tab-description {
+	display: none;
+}
+
+.tab-controls {
+	padding-top: 8px;
 	display: none;
 }
