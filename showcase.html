@@ -15,7 +15,7 @@
 			</div>
 			<div id="content">
 				<div id="canvas-wrapper">
-					<canvas width=550 height=400 id="renderer"/>
+					<canvas width=576 height=400 id="renderer"/>
 				</div>
 				<div id="description">
 					<div id="cubic-noise-description" class="tab-description">
@@ -42,8 +42,20 @@
 							<td><input id="cubic-noise-seed" type="number"></td>
 						</tr>
 						<tr>
+							<td>Quality</td>
+							<td><input id="cubic-noise-quality" type="range" min="1" max="5" value="3" onchange="cubicNoiseRender()">
+						</tr>
+						<tr>
 							<td>Period</td>
 							<td><input id="cubic-noise-period" type="range" min="1" max="128" value="32" onchange="cubicNoiseRender()">
+						</tr>
+						<tr>
+							<td>Octaves</td>
+							<td><input id="cubic-noise-octaves" type="range" min="1" max="8" value="2" onchange="cubicNoiseRender()">
+						</tr>
+						<tr>
+							<td>Falloff</td>
+							<td><input id="cubic-noise-falloff" type="range" min="0.25" max="16" value="3" step="0.25" onchange="cubicNoiseRender()">
 						</tr>
 					</table>
 				</div>
