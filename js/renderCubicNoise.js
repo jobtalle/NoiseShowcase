@@ -18,16 +18,15 @@ function cubicNoiseRender() {
 		var period = parseFloat(document.getElementById("cubic-noise-period").value / quality);
 		var octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
 		var falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
+		var normalizer;
 		
-		var divisor = 0;
-		var m = 1;
-		for(var octave = 0; octave < octaves; ++octave) {
-			divisor += m;
-			m *= falloff;
-		}
+		if(falloff - 1 == 0)
+			normalizer = 1 / octaves;
+		else
+			normalizer = ((falloff - 1) * Math.pow(falloff, octaves)) / (Math.pow(falloff, octaves) - 1);
 		
 		for(var octave = 0; octave < octaves; ++octave) {
-			var amplitude = (1 / Math.pow(falloff, octave + 1)) * (Math.pow(falloff, octaves) / divisor);
+			var amplitude = normalizer / Math.pow(falloff, octave + 1);
 			var config = cubicNoiseConfig(seed, period / (octave + 1));
 			
 			for(var y = 0; y < Math.floor(canvas.height / quality); ++y) {
