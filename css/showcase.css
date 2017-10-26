@@ -1,5 +1,5 @@
 body {
-	background-color: #ffeead;
+	background-color: #e6eeff;
 	font-family: Calibri;
 }
 
@@ -17,7 +17,7 @@ body {
 	float: top;
 	width: 100%;
 	border: 1px solid #000000;
-	background-color: #ff6f69;
+	background-color: #6699ff;
 	overflow: auto;
 }
 

@@ -51,11 +51,11 @@ function cubicNoiseRender() {
 		}
 		
 		context.putImageData(imageData, 0, 0);
-	}, 20);
+	}, LOAD_DELAY);
 }
 
 function cubicNoiseRandomizeSeed() {
-	document.getElementById("cubic-noise-seed").value = Math.round(4294967295 * Math.random());
+	document.getElementById("cubic-noise-seed").value = Math.round(getRandomSeed());
 	
 	cubicNoiseRender();
 }

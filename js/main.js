@@ -1,3 +1,7 @@
+const LOAD_DELAY = 20;
+
+var currentTab;
+
 function setTab(e, tab) {
 	hideAllDescriptions();
 	showDescription(tab);
@@ -7,15 +11,15 @@ function setTab(e, tab) {
 	
 	highlightTab(e);
 	
-	activate(tab);
+	deactivate(currentTab);
+	activate(currentTab = tab);
 }
 
 function highlightTab(e) {
 	var tabLinks = document.getElementsByClassName("tablink");
 	
-	for(var i = 0; i < tabLinks.length; ++i) {
+	for(var i = 0; i < tabLinks.length; ++i)
 		tabLinks[i].className = tabLinks[i].className.replace(" active", "");
-	}
 	
 	e.currentTarget.className += " active";
 }
@@ -23,9 +27,8 @@ function highlightTab(e) {
 function hideAllDescriptions() {
 	var allControls = document.getElementsByClassName("tab-description");
 	
-	for(var i = 0; i < allControls.length; ++i) {
+	for(var i = 0; i < allControls.length; ++i)
 		allControls[i].style.display = "none";
-	}
 }
 
 function showDescription(tab) {
@@ -35,9 +38,8 @@ function showDescription(tab) {
 function hideAllControls() {
 	var allControls = document.getElementsByClassName("tab-controls");
 	
-	for(var i = 0; i < allControls.length; ++i) {
+	for(var i = 0; i < allControls.length; ++i)
 		allControls[i].style.display = "none";
-	}
 }
 
 function showControls(tab) {
@@ -54,7 +56,22 @@ function activate(tab) {
 		case "cubic-noise":
 			cubicNoiseSetup();
 			break;
+		case "terrain":
+			terrainSetup();
+			break;
 	}
+}
+
+function deactivate(tab) {
+	switch(tab) {
+		case "terrain":
+			animateStop();
+			break;
+	}
+}
+
+function getRandomSeed() {
+	return 4294967295 * Math.random();
 }
 
 function getCanvas() {

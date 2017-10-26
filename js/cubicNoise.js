@@ -1,4 +1,4 @@
-function cubicNoiseConfig(seed, octave, periodx = Number.MAX_SAFE_INTEGER, periody = Number.MAX_SAFE_INTEGER) {
+function cubicNoiseConfig(seed, octave, periodx = 4294967296, periody = 4294967296) {
 	var config = {
 		'seed': seed,
 		'octave': octave,
