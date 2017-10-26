@@ -18,16 +18,15 @@ function cubicNoiseRender() {
 		var period = parseFloat(document.getElementById("cubic-noise-period").value / quality);
 		var octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
 		var falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
-		var normalizer;
+		var amplitude;
 		
 		if(falloff - 1 == 0)
-			normalizer = 1 / octaves;
+			amplitude = (1 / octaves) / falloff;
 		else
-			normalizer = ((falloff - 1) * Math.pow(falloff, octaves)) / (Math.pow(falloff, octaves) - 1);
+			amplitude = (((falloff - 1) * Math.pow(falloff, octaves)) / (Math.pow(falloff, octaves) - 1)) / falloff;
 		
 		for(var octave = 0; octave < octaves; ++octave) {
-			var amplitude = normalizer / Math.pow(falloff, octave + 1);
-			var config = cubicNoiseConfig(seed, period / (octave + 1));
+			var config = cubicNoiseConfig(seed + octave, period / (octave + 1));
 			
 			for(var y = 0; y < Math.floor(canvas.height / quality); ++y) {
 				for(var x = 0; x < Math.floor(canvas.width / quality); ++x) {
@@ -36,7 +35,6 @@ function cubicNoiseRender() {
 					
 					for(var yrep = 0; yrep < quality; ++yrep) {
 						for(var xrep = 0; xrep < quality; ++xrep) {
-							
 							var repIndex = (index + xrep + yrep * canvas.width) * 4;
 							
 							imageData.data[repIndex] += value;
@@ -49,9 +47,7 @@ function cubicNoiseRender() {
 			}
 			
 			period /= 2;
-			
-			if(period < 1)
-				break;
+			amplitude /= falloff;
 		}
 		
 		context.putImageData(imageData, 0, 0);
