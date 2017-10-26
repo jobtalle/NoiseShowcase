@@ -45,6 +45,11 @@ function showControls(tab) {
 }
 
 function activate(tab) {
+	var canvas = getCanvas();
+	var context = canvas.getContext("2d");
+	
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
 	switch(tab) {
 		case "cubic-noise":
 			cubicNoiseSetup();
@@ -54,4 +59,27 @@ function activate(tab) {
 
 function getCanvas() {
 	return document.getElementById("renderer");
+}
+
+function drawRendering() {
+	var canvas = getCanvas();
+	var context = canvas.getContext("2d");
+	var width = 150;
+	var height = 60;
+	var message = "Rendering...";
+	
+	context.fillStyle = "#ffffff";
+	context.fillRect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+	
+	context.strokeStyle = "#000000";
+	context.beginPath();
+	context.lineWidth = "1";
+	context.rect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+	context.stroke();
+	
+	context.fillStyle = "#000000";
+	context.font = "18px Calibri";
+	context.fillText(message,
+		(canvas.width - context.measureText(message).width) / 2,
+		(canvas.height + 9) / 2);
 }
