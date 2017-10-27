@@ -146,6 +146,22 @@
 							<td>Seed</td>
 							<td><input id="branching-seed" type="number"></td>
 						</tr>
+						<tr>
+							<td>Arms</td>
+							<td><input id="branching-arm-count" type="range" min="1" max="8" value="3" onchange="branchingStart()"></td>
+						</tr>
+						<tr>
+							<td>Width</td>
+							<td><input id="branching-arm-width" type="range" min="3" max="32" value="18" onchange="branchingStart()"></td>
+						</td>
+						<tr>
+							<td>Length</td>
+							<td><input id="branching-arm-length" type="range" min="5" max="80" value="36" onchange="branchingStart()"></td>
+						</td>
+						<tr>
+							<td>Branch count</td>
+							<td><input id="branching-count" type="range" min="0" max="16" value="3" onchange="branchingStart()"></td>
+						</td>
 					</table>
 				</div>
 			</div>

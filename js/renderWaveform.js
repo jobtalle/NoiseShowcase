@@ -2,7 +2,6 @@ const BACKGROUND_COLOR = "#000000";
 const FILL_COLOR = "#ff0066";
 const PADDING = 20;
 const PRECISION = 128;
-const PI = 3.141592653589;
 
 var noisey;
 var maxRadius;
@@ -32,8 +31,6 @@ function waveformRender(timeStep) {
 	const power = parseFloat(document.getElementById("waveform-power").value);
 	
 	var config = cubicNoiseConfig(seed, noisePeriod, (PRECISION / noisePeriod) / noiseFrequency);
-	
-	context.clearRect(0, 0, canvas.width, canvas.height);
 	
 	context.fillStyle = BACKGROUND_COLOR;
 	context.beginPath();

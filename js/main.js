@@ -1,3 +1,4 @@
+const PI = 3.141592653589;
 const LOAD_DELAY = 20;
 
 var currentTab;
@@ -99,6 +100,7 @@ function drawRendering() {
 	context.strokeStyle = "#000000";
 	context.beginPath();
 	context.lineWidth = "1";
+	context.lineCap = "butt";
 	context.rect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
 	context.stroke();
 	

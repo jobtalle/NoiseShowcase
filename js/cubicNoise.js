@@ -1,12 +1,10 @@
 function cubicNoiseConfig(seed, octave, periodx = 4294967296, periody = 4294967296) {
-	var config = {
+	return {
 		'seed': seed,
 		'octave': octave,
 		'periodx': periodx,
 		'periody': periody
-	}
-	
-	return config;
+	};
 }
 
 function tile(coordinate, period)

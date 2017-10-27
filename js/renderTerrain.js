@@ -37,6 +37,7 @@ function terrainRenderBase() {
 	
 	context.fillStyle = EDGE_COLOR;
 	context.strokeStyle = "#000000";
+	context.lineCap = "butt";
 	context.lineWidth = 1;
 	
 	context.beginPath();
@@ -107,6 +108,7 @@ function terrainRender(timeStep) {
 					context.strokeStyle = EDGE_COLOR;
 				} else {
 					context.lineWidth = 1;
+					context.lineCap = "butt";
 					context.strokeStyle = terrainCreateGradient(gradientStyle, mapped.x, mapped.y, mapped.x, mapped.y - terrainAmplitude);
 				}
 				context.beginPath();
