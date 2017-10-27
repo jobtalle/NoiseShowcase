@@ -29,7 +29,7 @@
 					</div>
 					<div id="waveform-description" class="tab-description">
 						<h3>Waveform</h3>
-						<p>A round looping waveform is being animated using cubic noise</p>
+						<p>A round looping waveform is being animated using cubic noise. Speed can be changed to move faster through the noise. If symmetry is not zero, the same noise slice is repeated multiple times.</p>
 					</div>
 					<div id="branching-description" class="tab-description">
 						<h3>Branching</h3>
@@ -42,6 +42,15 @@
 						<tr>
 							<td><button id="cubic-noise-generate" onclick="cubicNoiseRender()">Generate</button></td>
 							<td><button id="cubic-noise-randomize-seed" onclick="cubicNoiseRandomizeSeed()">Randomize seed</button></td>
+						</tr>
+						<tr>
+							<td>Gradient style</td>
+							<td>
+								<select id="cubic-noise-gradient" onchange="cubicNoiseRender()">
+									<option value="grayscale">Grayscale</option>
+									<option value="discrete">Discrete</option>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<td>Seed</td>
@@ -128,7 +137,16 @@
 					</table>
 				</div>
 				<div id="branching-controls" class="tab-controls">
-					Branching controls
+					<table>
+						<tr>
+							<td><button id="branching-generate" onclick="branchingStart()">Generate</button></td>
+							<td><button id="branching-randomize-seed" onclick="branchingRandomizeSeed()">Randomize seed</button></td>
+						</tr>
+						<tr>
+							<td>Seed</td>
+							<td><input id="branching-seed" type="number"></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -137,6 +155,7 @@
 		<script src="js/renderCubicNoise.js"></script>
 		<script src="js/renderTerrain.js"></script>
 		<script src="js/renderWaveform.js"></script>
+		<script src="js/renderBranching.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/init.js"></script>
 	</body>

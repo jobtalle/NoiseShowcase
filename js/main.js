@@ -62,6 +62,9 @@ function activate(tab) {
 		case "waveform":
 			waveformSetup();
 			break;
+		case "branching":
+			branchingSetup();
+			break;
 	}
 }
 
@@ -69,6 +72,7 @@ function deactivate(tab) {
 	switch(tab) {
 		case "terrain":
 		case "waveform":
+		case "branching":
 			animateStop();
 			break;
 	}

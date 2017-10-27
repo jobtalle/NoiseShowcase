@@ -1,3 +1,8 @@
+const DISCRETE_STEP = 32;
+const DISCRETE_RED = 0.8;
+const DISCRETE_GREEN = 1;
+const DISCRETE_BLUE = 0.4;
+
 function cubicNoiseSetup() {
 	document.getElementById("cubic-noise-randomize-seed").click();
 }
@@ -15,6 +20,7 @@ function cubicNoiseRender() {
 		const quality = parseFloat(1 << (5 - document.getElementById("cubic-noise-quality").value));
 		const octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
 		const falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
+		const gradientStyle = document.getElementById("cubic-noise-gradient").value;
 		
 		var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 		var period = parseFloat(document.getElementById("cubic-noise-period").value) / quality;
@@ -30,7 +36,7 @@ function cubicNoiseRender() {
 			
 			for(var y = 0; y < Math.floor(canvas.height / quality); ++y) {
 				for(var x = 0; x < Math.floor(canvas.width / quality); ++x) {
-					var index = (x + y * canvas.width) * quality;
+					const index = (x + y * canvas.width) * quality;
 					var value = cubicNoiseSample(config, x, y) * 255 * amplitude;
 					
 					for(var yrep = 0; yrep < quality; ++yrep) {
@@ -48,6 +54,25 @@ function cubicNoiseRender() {
 			
 			period /= 2;
 			amplitude /= falloff;
+		}
+		
+		if(gradientStyle != "grayscale") {
+			for(var y = 0; y < canvas.height; ++y) {
+				for(var x = 0; x < canvas.width; ++x) {
+					const index = (x + y * canvas.width) * 4;
+					var value = imageData.data[index];
+					
+					switch(gradientStyle) {
+						case "discrete":
+							value = Math.round(value / DISCRETE_STEP) * DISCRETE_STEP;
+							break;
+					}
+					
+					imageData.data[index] = value * DISCRETE_RED;
+					imageData.data[index + 1] = value * DISCRETE_GREEN;
+					imageData.data[index + 2] = value * DISCRETE_BLUE;
+				}
+			}
 		}
 		
 		context.putImageData(imageData, 0, 0);

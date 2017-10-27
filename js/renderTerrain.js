@@ -1,7 +1,7 @@
 const HORIZONTAL_MARGIN = 80;
 const VERTICAL_MARGIN = 100;
 const VERTICAL_BASE = 32;
-const LAYERS_PER_SECOND = 256;
+const LAYERS_PER_SECOND = 128;
 const EDGE_COLOR = "#AAAAAA";
 
 var atLayer;

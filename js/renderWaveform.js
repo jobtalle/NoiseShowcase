@@ -1,5 +1,5 @@
 const BACKGROUND_COLOR = "#000000";
-const STROKE_COLOR = "#ff0066";
+const FILL_COLOR = "#ff0066";
 const PADDING = 20;
 const PRECISION = 128;
 const PI = 3.141592653589;
@@ -40,7 +40,7 @@ function waveformRender(timeStep) {
 	context.rect(0, 0, canvas.width, canvas.height);
 	context.fill();
 	
-	context.strokeStyle = STROKE_COLOR;
+	context.fillStyle = FILL_COLOR;
 	context.lineWidth = 8;
 	context.beginPath();
 	
@@ -66,7 +66,7 @@ function waveformRender(timeStep) {
 		}
 	}
 	
-	context.stroke();
+	context.fill();
 	
 	noisey += timeStep * noiseSpeed;
 }
