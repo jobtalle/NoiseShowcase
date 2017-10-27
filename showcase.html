@@ -11,6 +11,7 @@
 			<div id="tabs">
 				<button class="tablink" onclick="setTab(event, 'cubic-noise')" id="default-tab">Cubic Noise</button>
 				<button class="tablink" onclick="setTab(event, 'terrain')">Terrain</button>
+				<button class="tablink" onclick="setTab(event, 'waveform')">Waveform</button>
 				<button class="tablink" onclick="setTab(event, 'branching')">Branching</button>
 			</div>
 			<div id="content">
@@ -24,6 +25,11 @@
 					</div>
 					<div id="terrain-description" class="tab-description">
 						<h3>Terrain</h3>
+						<p>Isometric 3D terrain based on cubic noise with octaves is rendered. The cubic noise can be configured and the amplitude can be changed. A suitable gradient can be chosen to give the terrain natural colors.
+					</div>
+					<div id="waveform-description" class="tab-description">
+						<h3>Waveform</h3>
+						<p>A round looping waveform is being animated using cubic noise</p>
 					</div>
 					<div id="branching-description" class="tab-description">
 						<h3>Branching</h3>
@@ -51,7 +57,7 @@
 						</tr>
 						<tr>
 							<td>Octaves</td>
-							<td><input id="cubic-noise-octaves" type="range" min="1" max="10" value="2" onchange="cubicNoiseRender()">
+							<td><input id="cubic-noise-octaves" type="range" min="1" max="10" value="3" onchange="cubicNoiseRender()">
 						</tr>
 						<tr>
 							<td>Falloff</td>
@@ -63,6 +69,61 @@
 					<table>
 						<tr>
 							<td><button id="terrain-generate" onclick="terrainStart()">Generate</button></td>
+							<td><button id="terrain-randomize-seed" onclick="terrainRandomizeSeed()">Randomize seed</button></td>
+						</tr>
+						<tr>
+							<td>Gradient style</td>
+							<td>
+								<select id="terrain-gradient" onchange="terrainStart()">
+									<option value="earth">Earth</option>
+									<option value="desert">Desert</option>
+									<option value="grayscale">Grayscale</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Seed</td>
+							<td><input id="terrain-seed" type="number"></td>
+						</tr>
+						<tr>
+							<td>Period</td>
+							<td><input id="terrain-period" type="range" min="4" max="256" value="32" onchange="terrainStart()">
+						</tr>
+						<tr>
+							<td>Octaves</td>
+							<td><input id="terrain-octaves" type="range" min="1" max="10" value="3" onchange="terrainStart()">
+						</tr>
+						<tr>
+							<td>Falloff</td>
+							<td><input id="terrain-falloff" type="range" min="0.25" max="16" value="7" step="0.5" onchange="terrainStart()">
+						</tr>
+						<tr>
+							<td>Amplitude</td>
+							<td><input id="terrain-amplitude" type="range" min="10" max="200" value="75" onchange="terrainStart()">
+						</tr>
+						<tr>
+							<td>Lower bound</td>
+							<td><input id="terrain-lower-bound" type="range" min="0" max="0.5" value="0.3" step="0.01" onchange="terrainStart()">
+						</tr>
+					</table>
+				</div>
+				<div id="waveform-controls" class="tab-controls">
+					<table>
+						<tr>
+							<td>Speed</td>
+							<td><input id="waveform-speed" type="range" min="1" max="100" value="30"></td>
+						</tr>
+						<tr>
+							<td>Period</td>
+							<td><input id="waveform-period" type="range" min="2" max="6" value="4"></td>
+						</tr>
+						<tr>
+							<td>Symmetry</td>
+							<td><input id="waveform-frequency" type="range" min="0" max="4" value="0"></td>
+						</tr>
+						<tr>
+							<td>Power</td>
+							<td><input id="waveform-power" type="range" min="0.1" max="5" step="0.1" value="2"></td>
 						</tr>
 					</table>
 				</div>
@@ -75,6 +136,7 @@
 		<script src="js/cubicNoise.js"></script>
 		<script src="js/renderCubicNoise.js"></script>
 		<script src="js/renderTerrain.js"></script>
+		<script src="js/renderWaveform.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/init.js"></script>
 	</body>

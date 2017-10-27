@@ -74,6 +74,10 @@ body {
 	width: 100%;
 }
 
+#controls select {
+	width: 100%;
+}
+
 #controls input {
 	width: 100%;
 }

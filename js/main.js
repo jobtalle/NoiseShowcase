@@ -59,19 +59,23 @@ function activate(tab) {
 		case "terrain":
 			terrainSetup();
 			break;
+		case "waveform":
+			waveformSetup();
+			break;
 	}
 }
 
 function deactivate(tab) {
 	switch(tab) {
 		case "terrain":
+		case "waveform":
 			animateStop();
 			break;
 	}
 }
 
 function getRandomSeed() {
-	return 4294967295 * Math.random();
+	return Math.round(4294967295 * Math.random());
 }
 
 function getCanvas() {

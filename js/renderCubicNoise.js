@@ -11,13 +11,13 @@ function cubicNoiseRender() {
 		
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		
-		var result = new Image();
+		const seed = parseFloat(document.getElementById("cubic-noise-seed").value);
+		const quality = parseFloat(1 << (5 - document.getElementById("cubic-noise-quality").value));
+		const octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
+		const falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
+		
 		var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-		var seed = parseFloat(document.getElementById("cubic-noise-seed").value);
-		var quality = parseFloat(1 << (5 - document.getElementById("cubic-noise-quality").value));
-		var period = parseFloat(document.getElementById("cubic-noise-period").value / quality);
-		var octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
-		var falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
+		var period = parseFloat(document.getElementById("cubic-noise-period").value) / quality;
 		var amplitude;
 		
 		if(falloff - 1 == 0)
@@ -55,7 +55,7 @@ function cubicNoiseRender() {
 }
 
 function cubicNoiseRandomizeSeed() {
-	document.getElementById("cubic-noise-seed").value = Math.round(getRandomSeed());
+	document.getElementById("cubic-noise-seed").value = getRandomSeed();
 	
 	cubicNoiseRender();
 }
