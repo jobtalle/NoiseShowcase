@@ -1,7 +1,7 @@
-const DISCRETE_STEP = 32;
-const DISCRETE_RED = 0.8;
-const DISCRETE_GREEN = 1;
-const DISCRETE_BLUE = 0.4;
+const CUBIC_NOISE_DISCRETE_STEP = 32;
+const CUBIC_NOISE_DISCRETE_RED = 0.8;
+const CUBIC_NOISE_DISCRETE_GREEN = 1;
+const CUBIC_NOISE_DISCRETE_BLUE = 0.4;
 
 function cubicNoiseSetup() {
 	document.getElementById("cubic-noise-randomize-seed").click();
@@ -64,13 +64,13 @@ function cubicNoiseRender() {
 					
 					switch(gradientStyle) {
 						case "discrete":
-							value = Math.round(value / DISCRETE_STEP) * DISCRETE_STEP;
+							value = Math.round(value / CUBIC_NOISE_DISCRETE_STEP) * CUBIC_NOISE_DISCRETE_STEP;
 							break;
 					}
 					
-					imageData.data[index] = value * DISCRETE_RED;
-					imageData.data[index + 1] = value * DISCRETE_GREEN;
-					imageData.data[index + 2] = value * DISCRETE_BLUE;
+					imageData.data[index] = value * CUBIC_NOISE_DISCRETE_RED;
+					imageData.data[index + 1] = value * CUBIC_NOISE_DISCRETE_GREEN;
+					imageData.data[index + 2] = value * CUBIC_NOISE_DISCRETE_BLUE;
 				}
 			}
 		}

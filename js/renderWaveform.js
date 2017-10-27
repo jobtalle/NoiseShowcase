@@ -1,11 +1,11 @@
-const BACKGROUND_COLOR = "#000000";
-const FILL_COLOR = "#ff0066";
-const PADDING = 20;
-const PRECISION = 128;
+const WAVEFORM_BACKGROUND_COLOR = "#000000";
+const WAVEFORM_FILL_COLOR = "#ff0066";
+const WAVEFORM_PADDING = 20;
+const WAVEFORM_PRECISION = 128;
 
-var noisey;
-var maxRadius;
-var seed;
+var wavefromNoiseY;
+var waveformMaxRadius;
+var waveformSeed;
 
 function waveformSetup() {
 	waveformStart();
@@ -14,9 +14,9 @@ function waveformSetup() {
 function waveformStart() {
 	var canvas = getCanvas();
 	
-	noisey = 0;
-	seed = getRandomSeed();
-	maxRadius = Math.min(canvas.width / 2, canvas.height / 2) - PADDING;
+	wavefromNoiseY = 0;
+	waveformSeed = getRandomSeed();
+	waveformMaxRadius = Math.min(canvas.width / 2, canvas.height / 2) - WAVEFORM_PADDING;
 	
 	animateStart(waveformRender);
 }
@@ -30,22 +30,22 @@ function waveformRender(timeStep) {
 	const noiseFrequency = 1 << parseInt(document.getElementById("waveform-frequency").value);
 	const power = parseFloat(document.getElementById("waveform-power").value);
 	
-	var config = cubicNoiseConfig(seed, noisePeriod, (PRECISION / noisePeriod) / noiseFrequency);
+	var config = cubicNoiseConfig(waveformSeed, noisePeriod, (WAVEFORM_PRECISION / noisePeriod) / noiseFrequency);
 	
-	context.fillStyle = BACKGROUND_COLOR;
+	context.fillStyle = WAVEFORM_BACKGROUND_COLOR;
 	context.beginPath();
 	context.rect(0, 0, canvas.width, canvas.height);
 	context.fill();
 	
-	context.fillStyle = FILL_COLOR;
+	context.fillStyle = WAVEFORM_FILL_COLOR;
 	context.lineWidth = 8;
 	context.beginPath();
 	
-	for(var i = 0; i < PRECISION; ++i) {
-		var sample = Math.pow(cubicNoiseSample(config, i, noisey), power);
+	for(var i = 0; i < WAVEFORM_PRECISION; ++i) {
+		var sample = Math.pow(cubicNoiseSample(config, i, wavefromNoiseY), power);
 		
-		var radians = (i / PRECISION) * PI * 2;
-		var radius = maxRadius * (sample / 2 + 0.5);
+		var radians = (i / WAVEFORM_PRECISION) * PI * 2;
+		var radius = waveformMaxRadius * (sample / 2 + 0.5);
 		var x = canvas.width / 2 + Math.cos(radians) * radius;
 		var y = canvas.height / 2 + Math.sin(radians) * radius;
 		
@@ -53,7 +53,7 @@ function waveformRender(timeStep) {
 			case 0:
 				context.moveTo(x, y);
 				break;
-			case PRECISION - 1:
+			case WAVEFORM_PRECISION - 1:
 				context.lineTo(x, y);
 				context.closePath();
 				break;
@@ -65,5 +65,5 @@ function waveformRender(timeStep) {
 	
 	context.fill();
 	
-	noisey += timeStep * noiseSpeed;
+	wavefromNoiseY += timeStep * noiseSpeed;
 }
