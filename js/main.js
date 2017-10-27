@@ -1,5 +1,4 @@
 const PI = 3.141592653589;
-const EPSILON = 0.00001;
 const LOAD_DELAY = 20;
 
 var currentTab;
