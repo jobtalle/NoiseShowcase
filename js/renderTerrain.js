@@ -131,7 +131,7 @@ function terrainCreateGradient(name, fromx, fromy, tox, toy) {
 		case "earth":
 			gradient.addColorStop(0, "#001f33");
 			gradient.addColorStop(0.3, "#0099ff");
-			gradient.addColorStop(0.33, "#e6e600");
+			gradient.addColorStop(0.33, "#e3e3d5");
 			gradient.addColorStop(0.45, "#47d147");
 			gradient.addColorStop(0.6, "#009933");
 			gradient.addColorStop(0.8, "#ffffff");
