@@ -1,14 +1,13 @@
 const BRANCHING_RENDER_STEPS_PER_SECOND = 32;
 const BRANCHING_BACKGROUND_COLOR = "#000000";
-const BRANCHING_STEP_SIZE = 10;
-const BRANCHING_WOBBLE_PERIOD = 8;
+const BRANCHING_SEGMENT_SIZE = 10;
 const BRANCHING_WOBBLE_SPEED = 1.5;
 
-var renderSteps;
-var startWidth;
-var widthDecrease;
-var branchCount;
-var branches;
+var branchingRenderSteps;
+var branchingStartWidth;
+var branchingWidthDecrease;
+var branchingBranchCount;
+var branchingBranches;
 var branchingWobbleX;
 
 function branchingSetup() {
@@ -16,32 +15,33 @@ function branchingSetup() {
 }
 
 function branchingStart() {
-	renderSteps = 0;
-	startWidth = parseFloat(document.getElementById("branching-arm-width").value);
-	widthDecrease = startWidth / parseInt(document.getElementById("branching-arm-length").value);
-	branchCount = parseInt(document.getElementById("branching-arm-count").value);
-	branches = new Array(branchCount);
+	branchingRenderSteps = 0;
+	branchingStartWidth = parseFloat(document.getElementById("branching-arm-width").value);
+	branchingWidthDecrease = branchingStartWidth / parseInt(document.getElementById("branching-arm-length").value);
+	branchingBranchCount = parseInt(document.getElementById("branching-arm-count").value);
+	branchingBranches = new Array(branchingBranchCount);
 	branchingWobbleX = 0;
 	
-	branchingCreateBranches();
+	branchingCreatebranchingBranches();
 	
 	animateStart(branchingRender);
 }
 
-function branchingCreateBranches() {
+function branchingCreatebranchingBranches() {
 	var seed = parseInt(document.getElementById("branching-seed").value);
 	
-	for(var i = 0; i < branchCount; ++i) {
+	for(var i = 0; i < branchingBranchCount; ++i) {
 		const branchLength = parseInt(document.getElementById("branching-arm-length").value);
-		var branchPointCount = parseInt(document.getElementById("branching-count").value);
+		const branchPointCount = parseInt(document.getElementById("branching-count").value);
+		const frequency = parseInt(document.getElementById("branching-frequency").value);
 		var branchPoints = new Array(branchPointCount);
 		
 		for(var p = 0; p < branchPointCount; ++p)
-			branchPoints[p] = Math.round(branchLength * Math.random()) * widthDecrease;
+			branchPoints[p] = 1 + Math.round((branchLength - 2) * Math.random());
 		
-		branches[i] = {
-			"config": cubicNoiseConfig(seed++, 32),
-			"color":  "hsl(" + (i / branchCount) * 360 + ", 90%, 65%)",
+		branchingBranches[i] = {
+			"config": cubicNoiseConfig(seed++, frequency),
+			"color":  "hsl(" + (i / branchingBranchCount) * 360 + ", 90%, 65%)",
 			"branchPoints": branchPoints
 		}
 	}
@@ -51,7 +51,7 @@ function branchingRender(timeStep) {
 	var canvas = getCanvas();
 	var context = canvas.getContext("2d");
 	
-	renderSteps += BRANCHING_RENDER_STEPS_PER_SECOND * timeStep;
+	branchingRenderSteps += BRANCHING_RENDER_STEPS_PER_SECOND * timeStep;
 	branchingWobbleX += timeStep * BRANCHING_WOBBLE_SPEED;
 	
 	context.fillStyle = BRANCHING_BACKGROUND_COLOR;
@@ -61,8 +61,8 @@ function branchingRender(timeStep) {
 	
 	context.lineCap = "round";
 	
-	for(var i = 0; i < branchCount; ++i)
-		branchingDrawBranch(branches[i]);
+	for(var i = 0; i < branchingBranchCount; ++i)
+		branchingDrawBranch(branchingBranches[i]);
 }
 
 function branchingDrawBranch(branch) {
@@ -70,7 +70,7 @@ function branchingDrawBranch(branch) {
 	var context = canvas.getContext("2d");
 	var x = canvas.width / 2;
 	var y = canvas.height / 2;
-	var width = startWidth;
+	var width = branchingStartWidth;
 	
 	context.strokeStyle = branch.color;
 	
@@ -85,7 +85,7 @@ function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sam
 	var context = canvas.getContext("2d");
 	
 	while(width >= 0) {
-		if(++step > renderSteps)
+		if(++step > branchingRenderSteps)
 			break;
 		
 		context.beginPath();
@@ -95,20 +95,20 @@ function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sam
 		var sample = (cubicNoiseSample(branch.config, samplex, sampley) - 0.5) * 1.5;
 		
 		direction += sample;
-		x += Math.cos(direction) * BRANCHING_STEP_SIZE;
-		y += Math.sin(direction) * BRANCHING_STEP_SIZE;
-		samplex += Math.cos(sampledir) * BRANCHING_STEP_SIZE;
-		sampley += Math.sin(sampledir) * BRANCHING_STEP_SIZE;
+		x += Math.cos(direction) * BRANCHING_SEGMENT_SIZE;
+		y += Math.sin(direction) * BRANCHING_SEGMENT_SIZE;
+		samplex += Math.cos(sampledir) * BRANCHING_SEGMENT_SIZE;
+		sampley += Math.sin(sampledir) * BRANCHING_SEGMENT_SIZE;
 		
 		context.lineTo(x, y);
 		context.stroke();
 		
 		if(width > 0)
-			width -= Math.min(width, widthDecrease);
+			width -= Math.min(width, branchingWidthDecrease);
 		else
-			width -= widthDecrease;
+			width -= branchingWidthDecrease;
 		
-		if(root && branch.branchPoints.includes(width))
+		if(root == true && branch.branchPoints.includes(step))
 			drawBranchPart(branch, false, x, y, direction, step, width, samplex, sampley, sampledir + 1);
 	}
 }

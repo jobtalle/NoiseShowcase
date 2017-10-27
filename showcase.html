@@ -33,6 +33,7 @@
 					</div>
 					<div id="branching-description" class="tab-description">
 						<h3>Branching</h3>
+						<p>A number of branching winding lines are rendered and animated. The directional change of each line is determined by drawing a line in a cubic noise. The shape changes while this line moves over the noise.
 					</div>
 				</div>
 			</div>
@@ -153,15 +154,19 @@
 						<tr>
 							<td>Width</td>
 							<td><input id="branching-arm-width" type="range" min="3" max="32" value="18" onchange="branchingStart()"></td>
-						</td>
+						</tr>
 						<tr>
 							<td>Length</td>
 							<td><input id="branching-arm-length" type="range" min="5" max="80" value="36" onchange="branchingStart()"></td>
-						</td>
+						</tr>
 						<tr>
 							<td>Branch count</td>
 							<td><input id="branching-count" type="range" min="0" max="16" value="3" onchange="branchingStart()"></td>
-						</td>
+						</tr>
+						<tr>
+							<td>Frequency</td>
+							<td><input id="branching-frequency" type="range" min="8" max="64" value="32" onchange="branchingStart()"></td>
+						</tr>
 					</table>
 				</div>
 			</div>
