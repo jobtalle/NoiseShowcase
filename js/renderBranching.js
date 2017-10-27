@@ -1,14 +1,14 @@
 const BRANCHING_RENDER_STEPS_PER_SECOND = 32;
 const BRANCHING_BACKGROUND_COLOR = "#000000";
 const BRANCHING_SEGMENT_SIZE = 10;
-const BRANCHING_WOBBLE_SPEED = 1.5;
 
 var branchingRenderSteps;
-var branchingStartWidth;
 var branchingWidthDecrease;
 var branchingBranchCount;
 var branchingBranches;
 var branchingWobbleX;
+var branchingTurnStrength;
+var branchingBranchLength;
 
 function branchingSetup() {
 	document.getElementById("branching-randomize-seed").click();
@@ -16,11 +16,10 @@ function branchingSetup() {
 
 function branchingStart() {
 	branchingRenderSteps = 0;
-	branchingStartWidth = parseFloat(document.getElementById("branching-arm-width").value);
-	branchingWidthDecrease = branchingStartWidth / parseInt(document.getElementById("branching-arm-length").value);
-	branchingBranchCount = parseInt(document.getElementById("branching-arm-count").value);
-	branchingBranches = new Array(branchingBranchCount);
 	branchingWobbleX = 0;
+	branchingBranchCount = parseInt(document.getElementById("branching-arm-count").value);
+	branchingBranchLength = parseInt(document.getElementById("branching-arm-length").value);
+	branchingBranches = new Array(branchingBranchCount);
 	
 	branchingCreatebranchingBranches();
 	
@@ -52,7 +51,10 @@ function branchingRender(timeStep) {
 	var context = canvas.getContext("2d");
 	
 	branchingRenderSteps += BRANCHING_RENDER_STEPS_PER_SECOND * timeStep;
-	branchingWobbleX += timeStep * BRANCHING_WOBBLE_SPEED;
+	branchingWobbleX += timeStep * parseFloat(document.getElementById("branching-speed").value);
+	branchingTurnStrength = parseFloat(document.getElementById("branching-turn-strength").value);
+	branchingStartWidth = parseFloat(document.getElementById("branching-arm-width").value);
+	branchingWidthDecrease = branchingStartWidth / branchingBranchLength;
 	
 	context.fillStyle = BRANCHING_BACKGROUND_COLOR;
 	context.beginPath();
@@ -72,12 +74,10 @@ function branchingDrawBranch(branch) {
 	var y = canvas.height / 2;
 	var width = branchingStartWidth;
 	
-	context.strokeStyle = branch.color;
+	var sampleDirOrigin = (cubicNoiseSample(branch.config, branchingWobbleX, branchingWobbleX) - 0.5) * PI * 4;
+	var directionOrigin = (cubicNoiseSample(branch.config, x - branchingWobbleX, y) - 0.5) * PI * 4;
 	
-	var sampleDirOrigin = (cubicNoiseSample(branch.config, x + branchingWobbleX, y) - 0.5) * PI * 4;
-	var directionOrigin = (cubicNoiseSample(branch.config, x + branchingWobbleX, y) - 0.5) * PI * 4;
-	
-	drawBranchPart(branch, true, x, y, directionOrigin, 0, width, 0, 0, sampleDirOrigin);
+	drawBranchPart(branch, true, x, y, directionOrigin, 0, width, branchingWobbleX, 0, sampleDirOrigin);
 }
 
 function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sampley, sampledir) {
@@ -92,14 +92,21 @@ function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sam
 		context.lineWidth = width;
 		context.moveTo(x, y);
 		
-		var sample = (cubicNoiseSample(branch.config, samplex, sampley) - 0.5) * 1.5;
+		const sample = cubicNoiseSample(branch.config, samplex, sampley) - 0.5;
+		const xPrevious = x;
+		const yPrevious = y;
 		
-		direction += sample;
+		direction += sample * branchingTurnStrength;
 		x += Math.cos(direction) * BRANCHING_SEGMENT_SIZE;
 		y += Math.sin(direction) * BRANCHING_SEGMENT_SIZE;
 		samplex += Math.cos(sampledir) * BRANCHING_SEGMENT_SIZE;
 		sampley += Math.sin(sampledir) * BRANCHING_SEGMENT_SIZE;
 		
+		var gradient = context.createLinearGradient(xPrevious, yPrevious, x, y);
+		gradient.addColorStop(0, branch.color);
+		gradient.addColorStop(1, "#000000");
+		
+		context.strokeStyle = gradient;
 		context.lineTo(x, y);
 		context.stroke();
 		
@@ -109,7 +116,7 @@ function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sam
 			width -= branchingWidthDecrease;
 		
 		if(root == true && branch.branchPoints.includes(step))
-			drawBranchPart(branch, false, x, y, direction, step, width, samplex, sampley, sampledir + 1);
+			drawBranchPart(branch, false, x, y, direction, step, width, samplex, sampley, sampledir + PI / 2);
 	}
 }
 
