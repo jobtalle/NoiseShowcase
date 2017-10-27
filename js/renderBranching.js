@@ -77,6 +77,8 @@ function branchingDrawBranch(branch) {
 	var sampleDirOrigin = (cubicNoiseSample(branch.config, branchingWobbleX, branchingWobbleX) - 0.5) * PI * 4;
 	var directionOrigin = (cubicNoiseSample(branch.config, x - branchingWobbleX, y) - 0.5) * PI * 4;
 	
+	context.strokeStyle = branch.color;
+	
 	drawBranchPart(branch, true, x, y, directionOrigin, 0, width, branchingWobbleX, 0, sampleDirOrigin);
 }
 
@@ -102,11 +104,6 @@ function drawBranchPart(branch, root, x, y, direction, step, width, samplex, sam
 		samplex += Math.cos(sampledir) * BRANCHING_SEGMENT_SIZE;
 		sampley += Math.sin(sampledir) * BRANCHING_SEGMENT_SIZE;
 		
-		var gradient = context.createLinearGradient(xPrevious, yPrevious, x, y);
-		gradient.addColorStop(0, branch.color);
-		gradient.addColorStop(1, "#000000");
-		
-		context.strokeStyle = gradient;
 		context.lineTo(x, y);
 		context.stroke();
 		
