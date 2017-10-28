@@ -2,7 +2,8 @@ const TERRAIN_HORIZONTAL_MARGIN = 80;
 const TERRAIN_VERTICAL_MARGIN = 100;
 const TERRAIN_VERTICAL_BASE = 32;
 const TERRAIN_LAYERS_PER_SECOND = 128;
-const TERRAIN_EDGE_COLOR = "#AAAAAA";
+const TERRAIN_EDGE_COLOR_RIGHT = "#AAAAAA";
+const TERRAIN_EDGE_COLOR_LEFT = "#777777";
 
 var terrainAtLayer;
 var terrainResolution;
@@ -35,7 +36,7 @@ function terrainRenderBase() {
 	
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
-	context.fillStyle = TERRAIN_EDGE_COLOR;
+	context.fillStyle = TERRAIN_EDGE_COLOR_RIGHT;
 	context.strokeStyle = "#000000";
 	context.lineCap = "butt";
 	context.lineWidth = 1;
@@ -103,9 +104,12 @@ function terrainRender(timeStep) {
 				
 				var mapped = terrainMap(x, y);
 				
-				if(x == terrainResolution - 1 || y == terrainResolution - 1) {
+				if(x == terrainResolution - 1) {
 					context.lineWidth = 2;
-					context.strokeStyle = TERRAIN_EDGE_COLOR;
+					context.strokeStyle = TERRAIN_EDGE_COLOR_RIGHT;
+				} else if(y == terrainResolution - 1) {
+					context.lineWidth = 2;
+					context.strokeStyle = TERRAIN_EDGE_COLOR_LEFT;
 				} else {
 					context.lineWidth = 1;
 					context.lineCap = "butt";
@@ -130,8 +134,8 @@ function terrainCreateGradient(name, fromx, fromy, tox, toy) {
 			break;
 		case "earth":
 			gradient.addColorStop(0, "#001f33");
-			gradient.addColorStop(0.3, "#0099ff");
-			gradient.addColorStop(0.33, "#e3e3d5");
+			gradient.addColorStop(0.34, "#0099ff");
+			gradient.addColorStop(0.37, "#e3e3d5");
 			gradient.addColorStop(0.45, "#47d147");
 			gradient.addColorStop(0.6, "#009933");
 			gradient.addColorStop(0.8, "#ffffff");
