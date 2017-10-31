@@ -1,18 +1,19 @@
-const HORIZONTAL_MARGIN = 80;
-const VERTICAL_MARGIN = 100;
-const VERTICAL_BASE = 32;
-const LAYERS_PER_SECOND = 128;
-const EDGE_COLOR = "#AAAAAA";
+const TERRAIN_HORIZONTAL_MARGIN = 80;
+const TERRAIN_VERTICAL_MARGIN = 100;
+const TERRAIN_VERTICAL_BASE = 32;
+const TERRAIN_LAYERS_PER_SECOND = 128;
+const TERRAIN_EDGE_COLOR_RIGHT = "#AAAAAA";
+const TERRAIN_EDGE_COLOR_LEFT = "#777777";
 
-var atLayer;
-var resolution;
+var terrainAtLayer;
+var terrainResolution;
 
 function terrainSetup() {
 	document.getElementById("terrain-randomize-seed").click();
 }
 
 function terrainStart() {
-	atLayer = 0;
+	terrainAtLayer = 0;
 	
 	terrainCalculateBounds();
 	terrainRenderBase();
@@ -23,10 +24,10 @@ function terrainStart() {
 function terrainCalculateBounds() {
 	var canvas = getCanvas();
 	
-	const usableWidth = canvas.width - 2 * HORIZONTAL_MARGIN;
-	const usableHeight = canvas.height - VERTICAL_MARGIN - VERTICAL_BASE;
+	const usableWidth = canvas.width - 2 * TERRAIN_HORIZONTAL_MARGIN;
+	const usableHeight = canvas.height - TERRAIN_VERTICAL_MARGIN - TERRAIN_VERTICAL_BASE;
 	
-	resolution = Math.min(usableHeight, usableWidth / 2);
+	terrainResolution = Math.min(usableHeight, usableWidth / 2);
 }
 
 function terrainRenderBase() {
@@ -35,17 +36,17 @@ function terrainRenderBase() {
 	
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
-	context.fillStyle = EDGE_COLOR;
+	context.fillStyle = TERRAIN_EDGE_COLOR_RIGHT;
 	context.strokeStyle = "#000000";
 	context.lineCap = "butt";
 	context.lineWidth = 1;
 	
 	context.beginPath();
-	context.moveTo(canvas.width / 2, canvas.height - VERTICAL_BASE);
-	context.lineTo(canvas.width / 2 + resolution, canvas.height - resolution / 2 - VERTICAL_BASE);
-	context.lineTo(canvas.width / 2, canvas.height - resolution- VERTICAL_BASE);
-	context.lineTo(canvas.width / 2 - resolution, canvas.height - resolution / 2- VERTICAL_BASE);
-	context.lineTo(canvas.width / 2, canvas.height - VERTICAL_BASE);
+	context.moveTo(canvas.width / 2, canvas.height - TERRAIN_VERTICAL_BASE);
+	context.lineTo(canvas.width / 2 + terrainResolution, canvas.height - terrainResolution / 2 - TERRAIN_VERTICAL_BASE);
+	context.lineTo(canvas.width / 2, canvas.height - terrainResolution- TERRAIN_VERTICAL_BASE);
+	context.lineTo(canvas.width / 2 - terrainResolution, canvas.height - terrainResolution / 2- TERRAIN_VERTICAL_BASE);
+	context.lineTo(canvas.width / 2, canvas.height - TERRAIN_VERTICAL_BASE);
 	context.fill();
 	context.stroke();
 }
@@ -55,16 +56,16 @@ function terrainMap(x, y) {
 	
 	return {
 		'x': canvas.width / 2 + x - y,
-		'y': canvas.height - resolution - VERTICAL_BASE + x / 2 + y / 2
+		'y': canvas.height - terrainResolution - TERRAIN_VERTICAL_BASE + x / 2 + y / 2
 	};
 }
 
 function terrainRender(timeStep) {
-	if(resolution > Math.floor(atLayer)) {
-		var previousLayer = Math.floor(atLayer);
-		atLayer += timeStep * LAYERS_PER_SECOND;
+	if(terrainResolution > Math.floor(terrainAtLayer)) {
+		var previousLayer = Math.floor(terrainAtLayer);
+		terrainAtLayer += timeStep * TERRAIN_LAYERS_PER_SECOND;
 		
-		if(previousLayer == Math.round(atLayer))
+		if(previousLayer == Math.round(terrainAtLayer))
 			return;
 		
 		var canvas = getCanvas();
@@ -84,8 +85,8 @@ function terrainRender(timeStep) {
 		else
 			amplitudeStart = (((falloff - 1) * Math.pow(falloff, octaves)) / (Math.pow(falloff, octaves) - 1)) / falloff;
 		
-		for(var y = previousLayer; y < Math.min(resolution, Math.floor(atLayer)); ++y) {
-			for(var x = 0; x < resolution; ++x) {
+		for(var y = previousLayer; y < Math.min(terrainResolution, Math.floor(terrainAtLayer)); ++y) {
+			for(var x = 0; x < terrainResolution; ++x) {
 				var period = periodStart;
 				var amplitude = amplitudeStart;
 				var sample = 0;
@@ -103,9 +104,12 @@ function terrainRender(timeStep) {
 				
 				var mapped = terrainMap(x, y);
 				
-				if(x == resolution - 1 || y == resolution - 1) {
+				if(x == terrainResolution - 1) {
 					context.lineWidth = 2;
-					context.strokeStyle = EDGE_COLOR;
+					context.strokeStyle = TERRAIN_EDGE_COLOR_RIGHT;
+				} else if(y == terrainResolution - 1) {
+					context.lineWidth = 2;
+					context.strokeStyle = TERRAIN_EDGE_COLOR_LEFT;
 				} else {
 					context.lineWidth = 1;
 					context.lineCap = "butt";
@@ -130,8 +134,8 @@ function terrainCreateGradient(name, fromx, fromy, tox, toy) {
 			break;
 		case "earth":
 			gradient.addColorStop(0, "#001f33");
-			gradient.addColorStop(0.3, "#0099ff");
-			gradient.addColorStop(0.33, "#e6e600");
+			gradient.addColorStop(0.34, "#0099ff");
+			gradient.addColorStop(0.37, "#e3e3d5");
 			gradient.addColorStop(0.45, "#47d147");
 			gradient.addColorStop(0.6, "#009933");
 			gradient.addColorStop(0.8, "#ffffff");
