@@ -27,7 +27,7 @@ function cubicNoiseRender() {
 		var amplitude;
 		
 		if(falloff - 1 == 0)
-			amplitude = (1 / octaves) / falloff;
+			amplitude = 1 / octaves;
 		else
 			amplitude = (((falloff - 1) * Math.pow(falloff, octaves)) / (Math.pow(falloff, octaves) - 1)) / falloff;
 		
